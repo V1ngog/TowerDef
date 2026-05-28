@@ -1,31 +1,18 @@
 #include "enemy.h"
 #include <cmath>
 
-Enemy::Enemy(QPointF targetPos, float hp, float speed, QGraphicsItem *parent = nullptr) 
+Enemy::Enemy(QPointF targetPos, QGraphicsItem *parent) 
     : QGraphicsPixmapItem(parent)
-    , m_target(targetPos)
-    , m_hp(hp)
-    , m_speed(speed)
-{
-    QPixmap pixmap(30, 30);
-    pixmap.fill(Qt::red);
-    setPixmap(pixmap);
-    
-    setTransformOriginPoint(15, 15);
-}
+    , m_target(targetPos) {}
 
 void Enemy::move()
 {
     QPointF direction = m_target - pos();
 
-    double dx = direction.x();
-    double dy = direction.y();
-    double distance = std::sqrt(dx * dx + dy * dy);
+    double length  = std::sqrt(direction.x() * direction.x() + direction.y() * direction.y());
 
-    if (distance > 0) {
-        direction.setX(dx / distance);
-        direction.setY(dy / distance);
-        
+    if (length  > 0) {
+        direction /= length;
         setPos(pos() + direction * m_speed);
     }
 }
