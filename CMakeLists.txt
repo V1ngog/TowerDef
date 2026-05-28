@@ -10,9 +10,11 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 qt_add_executable(TowerDef
     src/main.cpp
     src/PAGE/menupage.cpp
+    src/PAGE/settingspage.cpp
     src/WIN/basewindow.cpp
     src/WIN/mainwindow.cpp
     include/PAGE/basepage.h
+    include/PAGE/settingspage.h
     include/PAGE/menupage.h
     include/WIN/basewindow.h
     include/WIN/mainwindow.h

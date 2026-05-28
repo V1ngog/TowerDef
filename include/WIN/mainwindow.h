@@ -3,6 +3,7 @@
 
 #include "basewindow.h"
 #include "menupage.h"
+#include "settingspage.h"
 
 class MainWindow : public BaseWindow
 {
@@ -13,6 +14,6 @@ public:
 
 private:
     MenuPage *menuPage;
-    
+    SettingsPage *settingsPage;
 };
 #endif

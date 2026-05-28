@@ -21,7 +21,7 @@ MenuPage::MenuPage(QWidget *parent) : BasePage(parent)
     helpHLayout1->addWidget(watermark);
 
     namePage = new QLabel("TowerDef");
-    namePage->setStyleSheet("font: bold 24px;");
+    namePage->setStyleSheet("font: bold 32px;");
 
     QHBoxLayout *helpHLayout2 = new QHBoxLayout();
     helpHLayout2->addWidget(namePage, 0, Qt::AlignCenter);
