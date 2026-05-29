@@ -22,8 +22,9 @@ public:
     ~GameScreen();
 
     void setFactory(GameFactory* factory);
-    void onPageEnter();
-    void onPageExit();
+    void startGame();
+    void stopGame();
+    void resetGame();   
 
 signals:
     void gameWon();

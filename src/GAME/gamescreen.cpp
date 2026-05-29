@@ -15,7 +15,7 @@ GameScreen::GameScreen(QWidget *parent)
     , m_collisionManager(nullptr)
     , m_factory(nullptr)
     , m_gameTimer(nullptr)
-    , m_lives(10)
+    , m_lives(100)
     , m_score(0)
     , m_isGameActive(false)
     , m_deltaTime(0.033f)
@@ -49,7 +49,7 @@ void GameScreen::setupScene()
     connect(m_gameTimer, &QTimer::timeout, this, &GameScreen::onGameLoop);
 }
 
-void GameScreen::onPageEnter()
+void GameScreen::startGame()
 {
     if (!m_factory) return;
     
@@ -81,26 +81,31 @@ void GameScreen::onPageEnter()
             this, &GameScreen::onBuildHit);
     
     m_isGameActive = true;
-    m_lives = 10;
+    m_lives = 100;
     m_score = 0;
     m_gameTimer->start();
     m_waveManager->nextWave();
 }
 
-void GameScreen::onPageExit()
+void GameScreen::stopGame()
 {
-    cleanupGame();
+    m_isGameActive = false;
     m_gameTimer->stop();
+    if (m_waveManager) m_waveManager->pause();
+}
+
+void GameScreen::resetGame()
+{
+    stopGame();
+    cleanupGame();
 }
 
 void GameScreen::onGameLoop()
 {
     if (!m_isGameActive) return;
     
-    // Обновляем кулдаун башни
     m_build->updateCooldown(m_deltaTime);
     
-    // Башня ищет цель и стреляет
     if (m_build->canAtack()) {
         Enemy* target = findNearestEnemy();
         if (target) {
@@ -111,18 +116,15 @@ void GameScreen::onGameLoop()
             m_build->resetCooldown();
         }
     }
-    
-    // Двигаем врагов
+
     for (Enemy* enemy : m_enemies) {
         enemy->move();
     }
-    
-    // Двигаем ракеты
+
     for (Missile* missile : m_missiles) {
         missile->fly();
     }
-    
-    // Проверяем коллизии
+
     m_collisionManager->checkMissileEnemyCollisions(m_missiles, m_enemies);
     m_collisionManager->checkBuildEnemyCollision(m_build, m_enemies);
 }
@@ -163,12 +165,14 @@ void GameScreen::onEnemyDied(Enemy* enemy)
     m_enemies.removeOne(enemy);
     m_scene->removeItem(enemy);
     m_score += 10;
+
+    if(m_waveManager) {
+        m_waveManager->checkWaveComplete(m_enemies.size());
+    }
 }
 
 void GameScreen::onMissileHit(Missile* missile, Enemy* enemy)
 {
-    if (!missile->isActive()) return;
-    
     enemy->takeDamage(missile->getDamage());
     m_missiles.removeOne(missile);
     m_scene->removeItem(missile);
@@ -181,16 +185,17 @@ void GameScreen::onBuildHit(Enemy* enemy)
     m_enemies.removeOne(enemy);
     m_scene->removeItem(enemy);
     enemy->deleteLater();
-    
+
+    if (m_waveManager) {
+        m_waveManager->checkWaveComplete(m_enemies.size());
+    }
+
     if (m_lives <= 0) {
         gameOver();
     }
 }
 
-void GameScreen::onWaveComplete(int waveNumber)
-{
-    // Волна завершена, WaveManager сам запустит следующую
-}
+void GameScreen::onWaveComplete(int waveNumber) {}
 
 void GameScreen::onGameWin()
 {
@@ -238,6 +243,6 @@ void GameScreen::cleanupGame()
     }
     m_missiles.clear();
     
-    m_lives = 10;
+    m_lives = 100;
     m_score = 0;
 }

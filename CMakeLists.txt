@@ -8,7 +8,7 @@ set(CMAKE_AUTOMOC ON)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 qt_add_executable(TowerDef
-src/main.cpp
+    src/main.cpp
     src/PAGE/menupage.cpp
     src/PAGE/settingspage.cpp
     src/PAGE/gamepage.cpp
@@ -17,18 +17,29 @@ src/main.cpp
     src/GAME/wavemanager.cpp
     src/GAME/gamescreen.cpp
     src/GAME/collisionmanager.cpp
-    src/BUILDS/build.cpp
     src/GAME/enemy.cpp
     src/GAME/missile.cpp
-    include/FACTORY/factories.h
-    include/FACTORY/gamefactory.h
-    include/FACTORY/tempgameclasses.h
+    src/GAME/build.cpp
+    src/GAME/TOWER/strongtower.cpp
+    src/GAME/TOWER/weaktower.cpp
+    src/GAME/ENEMY/fastenemy.cpp
+    src/GAME/ENEMY/slowenemy.cpp
+    src/GAME/MISSILE/strongmissile.cpp
+    src/GAME/MISSILE/weakmissile.cpp
     include/GAME/build.h
     include/GAME/collisionmanager.h
     include/GAME/gamescreen.h
     include/GAME/wavemanager.h
     include/GAME/enemy.h
     include/GAME/missile.h
+    include/GAME/TOWER/strongtower.h
+    include/GAME/TOWER/weaktower.h
+    include/GAME/ENEMY/fastenemy.h
+    include/GAME/ENEMY/slowenemy.h
+    include/GAME/MISSILE/strongmissile.h
+    include/GAME/MISSILE/weakmissile.h
+    include/GAME/FACTORY/factories.h
+    include/GAME/FACTORY/gamefactory.h
     include/PAGE/gamepage.h
     include/PAGE/basepage.h
     include/PAGE/settingspage.h
@@ -43,5 +54,8 @@ target_include_directories(TowerDef PRIVATE
     ${CMAKE_SOURCE_DIR}/include/WIN
     ${CMAKE_SOURCE_DIR}/include/PAGE
     ${CMAKE_SOURCE_DIR}/include/GAME
-    ${CMAKE_SOURCE_DIR}/include/factory
+    ${CMAKE_SOURCE_DIR}/include/GAME/TOWER
+    ${CMAKE_SOURCE_DIR}/include/GAME/MISSILE
+    ${CMAKE_SOURCE_DIR}/include/GAME/ENEMY
+    ${CMAKE_SOURCE_DIR}/include/GAME/FACTORY
 )

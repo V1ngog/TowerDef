@@ -23,5 +23,6 @@ void Enemy::takeDamage(float damage)
 
     if (m_hp <= 0) {
         emit died(this);
+        deleteLater();
     }
 }

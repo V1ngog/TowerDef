@@ -44,13 +44,13 @@ void GamePage::onPageEnter()
     }
     
     // Запускаем игру
-    m_gameScreen->onPageEnter();
+    m_gameScreen->startGame();
 }
 
 void GamePage::onPageExit()
 {
     if (m_gameScreen) {
-        m_gameScreen->onPageExit();
+        m_gameScreen->stopGame();
     }
 }
 

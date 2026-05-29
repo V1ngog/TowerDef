@@ -28,8 +28,19 @@ void WaveManager::nextWave()
     m_enemiesInWave = 3 + m_currentWave * 2;
     m_enemiesSpawned = 0;
     m_spawnDelay = std::max(500, 2000 - m_currentWave * 100);
-
     start();
+}
+
+void WaveManager::checkWaveComplete(int aliveEnemies)
+{
+    if (m_enemiesSpawned >= m_enemiesInWave && aliveEnemies == 0) {
+        if (m_currentWave >= 10) {
+            emit allWavesComplete();
+        } else {
+            emit waveComplete(m_currentWave);
+            nextWave();
+        }
+    }
 }
 
 QPointF WaveManager::getRandomSpawnPosition()
@@ -56,18 +67,10 @@ void WaveManager::spawnNextEnemy()
 {
     if(m_enemiesSpawned >= m_enemiesInWave) {
         m_spawnTimer->stop();
-
-        if(m_currentWave >= 10) {
-            emit allWavesComplete();
-        } else {
-            emit waveComplete(m_currentWave);
-            start();
-        }
         return;
     }
     
     QPointF spawnPos = getRandomSpawnPosition();
     emit enemyToSpawn(spawnPos, m_towerPos);
     m_enemiesSpawned++;
-    
 }

@@ -8,7 +8,7 @@ Missile::Missile(Enemy *target, QGraphicsItem *parent)
 void Missile::fly()
 {
     if (!m_target) return;
-
+    
     QPointF direction = m_target->pos() - pos();
     
     double length  = std::sqrt(direction.x() * direction.x() + direction.y() * direction.y());

@@ -18,6 +18,7 @@ public:
     void reset();
     void nextWave();
     void setTowerPos(const QPointF& pos) { m_towerPos = pos; }
+    void checkWaveComplete(int aliveEnemies);
 
     int getCurrentWave() const { return m_currentWave; }
     int getEnemiesLeft() const { return m_enemiesInWave - m_enemiesSpawned; }
