@@ -23,7 +23,7 @@ public:
     void updateData() override;
 
 signals:
-    void gameFinished();  // сигнал для возврата в меню
+    void gameFinished();
 
 private slots:
     void onGameWon();

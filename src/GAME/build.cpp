@@ -19,3 +19,12 @@ void Build::resetCooldown()
 {
     m_currentCooldown = m_cooldownTime;
 }
+
+void Build::takeDamage(float damage)
+{
+    m_hp -= damage;
+
+    if (m_hp <= 0) {
+        emit destroy(); 
+    }
+}

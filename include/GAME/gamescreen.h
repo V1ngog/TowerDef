@@ -38,6 +38,7 @@ private slots:
     void onBuildHit(Enemy* enemy);
     void onWaveComplete(int waveNumber);
     void onGameWin();
+    void onMissileRemove(Missile *missile);
 
 private:
     void setupScene();

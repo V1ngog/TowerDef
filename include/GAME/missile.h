@@ -16,9 +16,13 @@ public:
 
     virtual void fly();
 
+    void hit();
     float getDamage() { return m_damage; }
     bool isActive() const { return m_active; }
     void deactivate() { m_active = false; }
+
+signals:
+    void remove(Missile *missile);
 
 protected:
     Enemy *m_target;

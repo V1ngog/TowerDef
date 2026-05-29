@@ -17,6 +17,7 @@ public:
     virtual void takeDamage(float damage);
 
     int getHp() const { return m_hp; }
+    int getDamage() const { return m_damage; }
     bool isAlive() const { return m_hp > 0; }
     
 signals:
@@ -24,6 +25,7 @@ signals:
 
 protected:
     QPointF m_target;
+    float m_damage;
     float m_hp;
     float m_speed;
 

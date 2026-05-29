@@ -15,7 +15,6 @@ GameScreen::GameScreen(QWidget *parent)
     , m_collisionManager(nullptr)
     , m_factory(nullptr)
     , m_gameTimer(nullptr)
-    , m_lives(100)
     , m_score(0)
     , m_isGameActive(false)
     , m_deltaTime(0.033f)
@@ -55,18 +54,14 @@ void GameScreen::startGame()
     
     cleanupGame();
     
-    // Создаём башню через фабрику
     m_build = m_factory->createBuild();
     m_build->setPos(400, 300);
     m_scene->addItem(m_build);
     
-    // Создаём менеджеры
     m_waveManager = new WaveManager(this);
     m_waveManager->setTowerPos(m_build->pos());
-    
     m_collisionManager = new CollisionManager(this);
     
-    // Подключаем сигналы WaveManager
     connect(m_waveManager, &WaveManager::enemyToSpawn, 
             this, &GameScreen::onEnemyToSpawn);
     connect(m_waveManager, &WaveManager::waveComplete, 
@@ -74,14 +69,14 @@ void GameScreen::startGame()
     connect(m_waveManager, &WaveManager::allWavesComplete, 
             this, &GameScreen::onGameWin);
     
-    // Подключаем сигналы CollisionManager
     connect(m_collisionManager, &CollisionManager::enemyHit, 
             this, &GameScreen::onMissileHit);
     connect(m_collisionManager, &CollisionManager::buildHit, 
             this, &GameScreen::onBuildHit);
     
+    connect(m_build, &Build::destroy, this, &GameScreen::gameLost);
+    
     m_isGameActive = true;
-    m_lives = 100;
     m_score = 0;
     m_gameTimer->start();
     m_waveManager->nextWave();
@@ -113,6 +108,8 @@ void GameScreen::onGameLoop()
             missile->setPos(m_build->pos());
             m_scene->addItem(missile);
             m_missiles.append(missile);
+            connect(missile, &Missile::remove, this, &GameScreen::onMissileRemove);
+
             m_build->resetCooldown();
         }
     }
@@ -164,6 +161,7 @@ void GameScreen::onEnemyDied(Enemy* enemy)
 {
     m_enemies.removeOne(enemy);
     m_scene->removeItem(enemy);
+    enemy->deleteLater();
     m_score += 10;
 
     if(m_waveManager) {
@@ -173,7 +171,15 @@ void GameScreen::onEnemyDied(Enemy* enemy)
 
 void GameScreen::onMissileHit(Missile* missile, Enemy* enemy)
 {
+    if(!missile->isActive()) return;
+
     enemy->takeDamage(missile->getDamage());
+    missile->deactivate();
+    missile->hit();
+}
+
+void GameScreen::onMissileRemove(Missile *missile)
+{
     m_missiles.removeOne(missile);
     m_scene->removeItem(missile);
     missile->deleteLater();
@@ -181,18 +187,8 @@ void GameScreen::onMissileHit(Missile* missile, Enemy* enemy)
 
 void GameScreen::onBuildHit(Enemy* enemy)
 {
-    m_lives--;
-    m_enemies.removeOne(enemy);
-    m_scene->removeItem(enemy);
-    enemy->deleteLater();
-
-    if (m_waveManager) {
-        m_waveManager->checkWaveComplete(m_enemies.size());
-    }
-
-    if (m_lives <= 0) {
-        gameOver();
-    }
+    m_build->takeDamage(enemy->getDamage());
+    enemy->takeDamage(m_build->getDamage());
 }
 
 void GameScreen::onWaveComplete(int waveNumber) {}
@@ -232,17 +228,15 @@ void GameScreen::cleanupGame()
     }
     
     for (Enemy* enemy : m_enemies) {
-        m_scene->removeItem(enemy);
-        enemy->deleteLater();
+        enemy->takeDamage(enemy->getHp() + 999);
     }
+
+        for (Missile* missile : m_missiles) {
+        missile->hit();
+    }
+
     m_enemies.clear();
-    
-    for (Missile* missile : m_missiles) {
-        m_scene->removeItem(missile);
-        missile->deleteLater();
-    }
     m_missiles.clear();
     
-    m_lives = 100;
     m_score = 0;
 }

@@ -18,3 +18,8 @@ void Missile::fly()
         setPos(pos() + direction * m_speed);
     }
 }
+
+void Missile::hit()
+{
+    emit remove(this);
+}

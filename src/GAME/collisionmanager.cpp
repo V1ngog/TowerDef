@@ -15,13 +15,8 @@ bool CollisionManager::checkCollision(QGraphicsItem* a, QGraphicsItem* b)
 void CollisionManager::checkMissileEnemyCollisions(QList<Missile*>& missiles, QList<Enemy*>& enemies)
 {
     for (Missile *missile : missiles){
-        if (!missile->isActive()) continue;
-
         for(Enemy *enemy : enemies) {
-            if (!enemy->isAlive()) continue;
-
             if (checkCollision(missile, enemy)) {
-                missile->deactivate();
                 emit enemyHit(missile, enemy);
                 break;
             }
