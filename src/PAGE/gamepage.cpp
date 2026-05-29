@@ -30,7 +30,6 @@ void GamePage::onPageEnter()
 {
     if (!m_factory) return;
     
-    // Создаём GameScreen, если ещё не создан
     if (!m_gameScreen) {
         m_gameScreen = new GameScreen(this);
         m_gameScreen->setFactory(m_factory);

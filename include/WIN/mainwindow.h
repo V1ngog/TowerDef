@@ -14,8 +14,6 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
 
 private slots:
-    void onStartGame();
-    void onOpenSettings();
     void onGameFinished();
 
 private:
