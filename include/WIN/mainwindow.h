@@ -5,6 +5,7 @@
 #include "menupage.h"
 #include "settingspage.h"
 #include "gamepage.h"
+#include "winpage.h"
 
 class MainWindow : public BaseWindow
 {
@@ -12,14 +13,12 @@ class MainWindow : public BaseWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
-
-private slots:
-    void onGameFinished();
-
+    
 private:
     MenuPage *m_menuPage;
     SettingsPage *m_settingsPage;
     GamePage *m_gamePage;
+    WinPage *m_winPage;
 };
 
 #endif

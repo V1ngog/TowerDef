@@ -12,6 +12,7 @@ qt_add_executable(TowerDef
     src/PAGE/menupage.cpp
     src/PAGE/settingspage.cpp
     src/PAGE/gamepage.cpp
+    src/PAGE/winpage.cpp
     src/WIN/basewindow.cpp
     src/WIN/mainwindow.cpp
     src/GAME/wavemanager.cpp
@@ -44,6 +45,7 @@ qt_add_executable(TowerDef
     include/PAGE/basepage.h
     include/PAGE/settingspage.h
     include/PAGE/menupage.h
+    include/PAGE/winpage.h
     include/WIN/basewindow.h
     include/WIN/mainwindow.h
 )

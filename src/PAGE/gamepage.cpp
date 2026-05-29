@@ -35,14 +35,12 @@ void GamePage::onPageEnter()
         m_gameScreen->setFactory(m_factory);
         m_layout->addWidget(m_gameScreen);
         
-        // Подключаем сигналы GameScreen
         connect(m_gameScreen, &GameScreen::gameWon, 
                 this, &GamePage::onGameWon);
         connect(m_gameScreen, &GameScreen::gameLost, 
                 this, &GamePage::onGameLost);
     }
     
-    // Запускаем игру
     m_gameScreen->startGame();
 }
 
@@ -53,19 +51,14 @@ void GamePage::onPageExit()
     }
 }
 
-void GamePage::updateData()
-{
-    // Можно обновлять статистику, если нужно
-}
+void GamePage::updateData() {}
 
 void GamePage::onGameWon()
 {
-    // Победа — возвращаемся в меню
-    emit gameFinished();
+    emit gameWin();
 }
 
 void GamePage::onGameLost()
 {
-    // Поражение — возвращаемся в меню
-    emit gameFinished();
+    emit gameLost();
 }

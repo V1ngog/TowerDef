@@ -23,7 +23,8 @@ public:
     void updateData() override;
 
 signals:
-    void gameFinished();
+    void gameWin();
+    void gameLost();
 
 private slots:
     void onGameWon();

@@ -7,12 +7,14 @@ MainWindow::MainWindow(QWidget *parent)
     m_menuPage = new MenuPage(this);
     m_settingsPage = new SettingsPage(this);
     m_gamePage = new GamePage(this);
+    m_winPage = new WinPage(this);
     
     m_gamePage->setFactory(new HardFactory());
     
     registerPage("Menu", m_menuPage);
     registerPage("Settings", m_settingsPage);
     registerPage("Game", m_gamePage);
+    registerPage("Win", m_winPage);
     
     navigateTo("Menu");
 
@@ -30,13 +32,13 @@ MainWindow::MainWindow(QWidget *parent)
     navigateTo("Menu"); 
     });
     
-    connect(m_gamePage, &GamePage::gameFinished, 
-            this, &MainWindow::onGameFinished);
+    connect(m_gamePage, &GamePage::gameWin, this, [this]() {
+    navigateTo("Win");
+    });
+
+    connect(m_winPage, &WinPage::cancelClicked, this, [this]() {
+    navigateTo("Menu"); 
+    });
     
     setWindowTitle("Tower Defense");
-}
-
-void MainWindow::onGameFinished()
-{
-    navigateTo("Menu");
 }
