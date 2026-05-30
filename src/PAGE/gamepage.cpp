@@ -1,6 +1,7 @@
 #include "gamepage.h"
 #include "gamescreen.h"
 #include "gamefactory.h"
+#include "factories.h"
 #include <QVBoxLayout>
 
 GamePage::GamePage(QWidget *parent)
@@ -11,6 +12,8 @@ GamePage::GamePage(QWidget *parent)
 {
     m_layout = new QVBoxLayout(this);
     setLayout(m_layout);
+
+    m_factory = new MediumFactory();
 }
 
 GamePage::~GamePage()
@@ -32,7 +35,6 @@ void GamePage::onPageEnter()
     
     if (!m_gameScreen) {
         m_gameScreen = new GameScreen(this);
-        m_gameScreen->setFactory(m_factory);
         m_layout->addWidget(m_gameScreen);
         
         connect(m_gameScreen, &GameScreen::gameWon, 
@@ -41,6 +43,7 @@ void GamePage::onPageEnter()
                 this, &GamePage::onGameLost);
     }
     
+    m_gameScreen->setFactory(m_factory);
     m_gameScreen->startGame();
 }
 

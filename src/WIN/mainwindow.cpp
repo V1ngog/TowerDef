@@ -10,8 +10,6 @@ MainWindow::MainWindow(QWidget *parent)
     m_winPage = new WinPage(this);
     m_lostPage = new LostPage(this);
     
-    m_gamePage->setFactory(new HardFactory());
-    
     registerPage("Menu", m_menuPage);
     registerPage("Settings", m_settingsPage);
     registerPage("Game", m_gamePage);
@@ -49,6 +47,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_lostPage, &LostPage::cancelClicked, this, [this]() {
     navigateTo("Menu"); 
     });
+
+    connect(m_settingsPage, &SettingsPage::difficultySelected, m_gamePage, &GamePage::setFactory);
 
     setWindowTitle("Tower Defense");
 }

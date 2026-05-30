@@ -235,8 +235,5 @@ void GameScreen::cleanupGame()
         missile->hit();
     }
 
-    m_enemies.clear();
-    m_missiles.clear();
-    
     m_score = 0;
 }
