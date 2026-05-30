@@ -34,7 +34,7 @@ void WaveManager::nextWave()
 void WaveManager::checkWaveComplete(int aliveEnemies)
 {
     if (m_enemiesSpawned >= m_enemiesInWave && aliveEnemies == 0) {
-        if (m_currentWave >= 1) {
+        if (m_currentWave >= 10) {
             emit allWavesComplete();
         } else {
             emit waveComplete(m_currentWave);

@@ -7,7 +7,7 @@ WinPage::WinPage(QWidget *parent) : BasePage (parent)
     QVBoxLayout *layout = new QVBoxLayout(this);
     
     QLabel *title = new QLabel("VICTORY!", this);
-    title->setStyleSheet("font: bold 48px; color: green; background-color: rgba(0,0,0,0);");
+    title->setStyleSheet("font: bold 48px; color: green; background-color: rgba(0,0,0);");
     
     QPushButton *menuButton = new QPushButton("Back to Menu", this);
     menuButton->setFixedSize(200, 50);

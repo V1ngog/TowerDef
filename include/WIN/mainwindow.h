@@ -6,6 +6,7 @@
 #include "settingspage.h"
 #include "gamepage.h"
 #include "winpage.h"
+#include "lostpage.h"
 
 class MainWindow : public BaseWindow
 {
@@ -19,6 +20,7 @@ private:
     SettingsPage *m_settingsPage;
     GamePage *m_gamePage;
     WinPage *m_winPage;
+    LostPage *m_lostPage;
 };
 
 #endif

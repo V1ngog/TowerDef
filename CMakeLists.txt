@@ -8,19 +8,20 @@ set(CMAKE_AUTOMOC ON)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 qt_add_executable(TowerDef
-    src/main.cpp
+     src/main.cpp
     src/PAGE/menupage.cpp
     src/PAGE/settingspage.cpp
     src/PAGE/gamepage.cpp
     src/PAGE/winpage.cpp
+    src/PAGE/lostpage.cpp
     src/WIN/basewindow.cpp
     src/WIN/mainwindow.cpp
     src/GAME/wavemanager.cpp
     src/GAME/gamescreen.cpp
     src/GAME/collisionmanager.cpp
+    src/GAME/build.cpp
     src/GAME/enemy.cpp
     src/GAME/missile.cpp
-    src/GAME/build.cpp
     src/GAME/TOWER/strongtower.cpp
     src/GAME/TOWER/weaktower.cpp
     src/GAME/ENEMY/fastenemy.cpp
@@ -46,6 +47,7 @@ qt_add_executable(TowerDef
     include/PAGE/settingspage.h
     include/PAGE/menupage.h
     include/PAGE/winpage.h
+    include/PAGE/lostpage.h 
     include/WIN/basewindow.h
     include/WIN/mainwindow.h
 )
