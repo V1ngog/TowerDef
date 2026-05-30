@@ -1,4 +1,4 @@
-#include "WeakTower.h"
+#include "weaktower.h"
 
 WeakTower::WeakTower()
 {

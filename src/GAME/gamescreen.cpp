@@ -26,10 +26,19 @@ GameScreen::~GameScreen()
 {
     cleanupGame();
     delete m_scene;
+    
+    if (m_factory) {
+        delete m_factory;
+        m_factory = nullptr;
+    }
 }
 
 void GameScreen::setFactory(GameFactory* factory)
 {
+    if (m_factory && m_factory != factory) {
+        delete m_factory;
+    }
+    
     m_factory = factory;
 }
 

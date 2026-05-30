@@ -22,10 +22,20 @@ GamePage::~GamePage()
         delete m_gameScreen;
         m_gameScreen = nullptr;
     }
+
+    if (m_factory) {
+        delete m_factory;
+        m_factory = nullptr;
+    }
 }
 
 void GamePage::setFactory(GameFactory* factory)
 {
+    if (m_factory) {
+        delete m_factory;
+        m_factory = nullptr;
+    }
+
     m_factory = factory;
 }
 
