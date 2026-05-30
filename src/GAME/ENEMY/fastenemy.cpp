@@ -1,9 +1,9 @@
 #include "fastenemy.h"
 
 FastEnemy::FastEnemy(QPointF targetPos) : Enemy(targetPos) {
-        m_hp = 20;
+        m_hp = 10;
         m_damage = 5.0f;
-        m_speed = 10.0f;
+        m_speed = 5.0f;
         setupVisual();
     }
 

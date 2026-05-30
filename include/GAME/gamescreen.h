@@ -3,9 +3,11 @@
 
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QGraphicsTextItem>
 #include <QTimer>
 #include <QList>
 
+class GameButton;
 class Build;
 class Enemy;
 class Missile;
@@ -39,8 +41,11 @@ private slots:
     void onWaveComplete(int waveNumber);
     void onGameWin();
     void onMissileRemove(Missile *missile);
+    void onUpgradeDamageClicked();
 
 private:
+    void setupUI();
+    void updateUI();
     void setupScene();
     void cleanupGame();
     void gameOver();
@@ -51,6 +56,8 @@ private:
     WaveManager* m_waveManager;
     CollisionManager* m_collisionManager;
     GameFactory* m_factory;
+    GameButton* m_addDamageButton;
+    QGraphicsTextItem* m_coinsText;
     
     QList<Enemy*> m_enemies;
     QList<Missile*> m_missiles;
@@ -58,6 +65,8 @@ private:
     QTimer* m_gameTimer;
     int m_lives;
     int m_score;
+    int m_coins;
+    float m_addDamage;
     bool m_isGameActive;
     float m_deltaTime;
 };

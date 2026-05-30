@@ -22,6 +22,7 @@ qt_add_executable(TowerDef
     src/GAME/build.cpp
     src/GAME/enemy.cpp
     src/GAME/missile.cpp
+    src/GAME/gamebutton.cpp
     src/GAME/TOWER/strongtower.cpp
     src/GAME/TOWER/weaktower.cpp
     src/GAME/ENEMY/fastenemy.cpp
@@ -32,6 +33,7 @@ qt_add_executable(TowerDef
     include/GAME/collisionmanager.h
     include/GAME/gamescreen.h
     include/GAME/wavemanager.h
+    include/GAME/gamebutton.h
     include/GAME/enemy.h
     include/GAME/missile.h
     include/GAME/TOWER/strongtower.h

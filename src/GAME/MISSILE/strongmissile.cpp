@@ -1,7 +1,7 @@
 #include "strongmissile.h"
 
 StrongMissile::StrongMissile(Enemy* target) : Missile(target) {
-        m_damage = 2;
+        m_damage = 7;
         m_speed = 11.0f;
         m_active = true;
         setupVisual();

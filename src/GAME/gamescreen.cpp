@@ -5,6 +5,7 @@
 #include "wavemanager.h"
 #include "collisionmanager.h"
 #include "gamefactory.h"
+#include "gamebutton.h"
 #include <cmath>
 
 GameScreen::GameScreen(QWidget *parent)
@@ -16,6 +17,8 @@ GameScreen::GameScreen(QWidget *parent)
     , m_factory(nullptr)
     , m_gameTimer(nullptr)
     , m_score(0)
+    , m_coins(0)
+    , m_addDamage(0)
     , m_isGameActive(false)
     , m_deltaTime(0.033f)
 {
@@ -51,10 +54,44 @@ void GameScreen::setupScene()
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFixedSize(800, 600);
     setBackgroundBrush(Qt::black);
+
+    m_coinsText = new QGraphicsTextItem();
+    m_coinsText->setDefaultTextColor(Qt::yellow);
+    m_coinsText->setFont(QFont("Arial", 16, QFont::Bold));
+    m_coinsText->setPos(10, 10);
+    m_coinsText->setZValue(100);
+    m_scene->addItem(m_coinsText);
     
+    updateUI();
+
     m_gameTimer = new QTimer(this);
     m_gameTimer->setInterval(33);
     connect(m_gameTimer, &QTimer::timeout, this, &GameScreen::onGameLoop);
+}
+
+void GameScreen::setupUI()
+{
+    GameButton* m_addDamageButton = new GameButton("Upgrade (+5)", nullptr);
+
+    m_addDamageButton->setPos(10, 40);
+    m_scene->addItem(m_addDamageButton);
+    connect(m_addDamageButton, &GameButton::clicked, 
+        this, &GameScreen::onUpgradeDamageClicked);
+}
+
+void GameScreen::onUpgradeDamageClicked()
+{
+    int cost = 50;
+    if (m_coins >= cost) {
+        m_coins -= cost;
+        m_addDamage += 5;
+        updateUI();
+    }
+}
+
+void GameScreen::updateUI()
+{
+    m_coinsText->setPlainText(QString("Coins: %1").arg(m_coins));
 }
 
 void GameScreen::startGame()
@@ -70,7 +107,9 @@ void GameScreen::startGame()
     m_waveManager = new WaveManager(this);
     m_waveManager->setTowerPos(m_build->pos());
     m_collisionManager = new CollisionManager(this);
-    
+
+    setupUI();
+
     connect(m_waveManager, &WaveManager::enemyToSpawn, 
             this, &GameScreen::onEnemyToSpawn);
     connect(m_waveManager, &WaveManager::waveComplete, 
@@ -172,7 +211,9 @@ void GameScreen::onEnemyDied(Enemy* enemy)
     m_scene->removeItem(enemy);
     enemy->deleteLater();
     m_score += 10;
+    m_coins += 10;
 
+    updateUI();
     if(m_waveManager) {
         m_waveManager->checkWaveComplete(m_enemies.size());
     }
@@ -182,7 +223,7 @@ void GameScreen::onMissileHit(Missile* missile, Enemy* enemy)
 {
     if(!missile->isActive()) return;
 
-    enemy->takeDamage(missile->getDamage());
+    enemy->takeDamage(missile->getDamage() + m_addDamage);
     missile->deactivate();
     missile->hit();
 }
@@ -244,5 +285,7 @@ void GameScreen::cleanupGame()
         missile->hit();
     }
 
+    m_addDamage = 0;
     m_score = 0;
+    m_coins = 0;
 }
