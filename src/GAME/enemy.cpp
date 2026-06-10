@@ -19,11 +19,9 @@ void Enemy::move()
 
 void Enemy::takeDamage(float damage)
 {
-    qDebug() << "dam1";
     m_hp -= damage;
 
     if (m_hp <= 0) {
         emit died(this);
-        qDebug() << "dam2";
     }
 }

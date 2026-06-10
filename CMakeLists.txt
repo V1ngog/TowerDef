@@ -29,6 +29,8 @@ qt_add_executable(TowerDef
     src/GAME/ENEMY/slowenemy.cpp
     src/GAME/MISSILE/strongmissile.cpp
     src/GAME/MISSILE/weakmissile.cpp
+    src/GAME/gameprocessor.cpp
+    include/GAME/gameprocessor.h
     include/GAME/build.h
     include/GAME/collisionmanager.h
     include/GAME/gamescreen.h

@@ -4,7 +4,7 @@ StrongTower::StrongTower()
 {
     m_range = 150;
     m_damage = 150;
-    m_hp = 300.0f;
+    m_hp = 50.0f;
     m_cooldownTime = 1.0f;
     m_currentCooldown = 0.0f;
     setupVisual();

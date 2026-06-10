@@ -5,14 +5,14 @@
 #include <QGraphicsScene>
 #include <QGraphicsTextItem>
 #include <QTimer>
-#include <QList>
+#include <QMap>
+#include <QElapsedTimer>
 
 class GameButton;
 class Build;
 class Enemy;
 class Missile;
-class WaveManager;
-class CollisionManager;
+class GameProcessor;
 class GameFactory;
 
 class GameScreen : public QGraphicsView
@@ -26,7 +26,7 @@ public:
     void setFactory(GameFactory* factory);
     void startGame();
     void stopGame();
-    void resetGame();   
+    void resetGame();
 
 signals:
     void gameWon();
@@ -34,39 +34,45 @@ signals:
 
 private slots:
     void onGameLoop();
-    void onEnemyToSpawn(QPointF spawnPos, QPointF targetPos);
+    
+    void onBuildSpawned(Build* build, QPointF pos);
+    void onBuildDestroyed();
+    void onBuildDamageTaken(float currentHp);
+    
+    void onEnemySpawned(Enemy* enemy, QPointF pos);
     void onEnemyDied(Enemy* enemy);
-    void onMissileHit(Missile* missile, Enemy* enemy);
-    void onBuildHit(Enemy* enemy);
+    void onEnemyMoved(Enemy* enemy, QPointF newPos);
+    
+    void onMissileSpawned(Missile* missile, QPointF pos);
+    void onMissileHit(Missile* missile);
+    void onMissileDestroyed(Missile* missile);
+    
+    void onCoinsChanged(int newCoins, int changeAmount);
+    void onScoreChanged(int newScore, int changeAmount);
+    
     void onWaveComplete(int waveNumber);
-    void onGameWin();
-    void onMissileRemove(Missile *missile);
-    void onUpgradeDamageClicked();
+    void onGameWon();
+    void onGameLost();
 
 private:
-    void setupUI();
-    void updateUI();
     void setupScene();
+    void setupUI();
     void cleanupGame();
-    void gameOver();
-    Enemy* findNearestEnemy();
-
-    QGraphicsScene* m_scene;
-    Build* m_build;
-    WaveManager* m_waveManager;
-    CollisionManager* m_collisionManager;
-    GameFactory* m_factory;
-    GameButton* m_addDamageButton;
-    QGraphicsTextItem* m_coinsText;
     
-    QList<Enemy*> m_enemies;
-    QList<Missile*> m_missiles;
+    QMap<Enemy*, QGraphicsPixmapItem*> m_enemyVisuals;
+    QMap<Missile*, QGraphicsPixmapItem*> m_missileVisuals;
+    QGraphicsRectItem* m_buildHealthBar;
+    
+    QGraphicsScene* m_scene;
+    GameProcessor* m_processor;
+    GameButton* m_upgradeButton;
+    QGraphicsTextItem* m_coinsText;
+    QGraphicsTextItem* m_scoreText;
+    QGraphicsTextItem* m_waveText;
     
     QTimer* m_gameTimer;
-    int m_lives;
-    int m_score;
-    int m_coins;
-    float m_addDamage;
+    QElapsedTimer* m_frameTimer;
+    
     bool m_isGameActive;
     float m_deltaTime;
 };
