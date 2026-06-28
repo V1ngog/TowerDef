@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.28.3)
 project(TowerDef)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -56,7 +56,9 @@ qt_add_executable(TowerDef
     include/WIN/mainwindow.h
 )
 
-target_link_libraries(TowerDef PRIVATE Qt6::Widgets)
+target_link_libraries(TowerDef PRIVATE 
+    Qt6::Widgets 
+    Qt6::Core)
 
 target_include_directories(TowerDef PRIVATE 
     ${CMAKE_SOURCE_DIR}/include/WIN
